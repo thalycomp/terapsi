@@ -3,6 +3,26 @@ import User from '../models/User';
 
 class TherapistController {
   async index(req, res) {
+    const filter = req.query;
+
+    const cost = Number(filter.cost);
+    const { approach } = filter;
+
+    if (filter.approach || filter.cost) {
+      const therapistFilter = await Therapist.findAll({
+        where: { cost, approach },
+        include: [
+          {
+            model: User,
+            attributes: ['id', 'name'],
+          },
+        ],
+        attributes: ['id', 'crp', 'bio', 'approach', 'cost', 'duration'],
+      });
+
+      return res.status(200).json(therapistFilter);
+    }
+
     const therapistAll = await Therapist.findAll({
       include: [
         {
@@ -12,6 +32,7 @@ class TherapistController {
       ],
       attributes: ['id', 'crp', 'bio', 'approach', 'cost', 'duration'],
     });
+
     return res.status(200).json(therapistAll);
   }
 
