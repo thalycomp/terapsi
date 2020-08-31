@@ -1,5 +1,6 @@
 import Therapist from '../models/Therapist';
 import User from '../models/User';
+import Schedule from '../models/Schedule';
 
 class TherapistController {
   async index(req, res) {
@@ -16,6 +17,10 @@ class TherapistController {
             model: User,
             attributes: ['id', 'name'],
           },
+          {
+            model: Schedule,
+            attributes: ['from', 'to', 'week_day'],
+          },
         ],
         attributes: ['id', 'crp', 'bio', 'approach', 'cost', 'duration'],
       });
@@ -28,6 +33,10 @@ class TherapistController {
         {
           model: User,
           attributes: ['id', 'name'],
+        },
+        {
+          model: Schedule,
+          attributes: ['from', 'to', 'week_day'],
         },
       ],
       attributes: ['id', 'crp', 'bio', 'approach', 'cost', 'duration'],

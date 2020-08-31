@@ -56,7 +56,7 @@ class ScheduleController {
       return res.status(401).json({ error: 'Week day already exist.' });
     }
 
-    if (to - from < 30 || from < to) {
+    if (from - to < 30 || from < to) {
       return res.status(401).json({ error: 'Invalid date.' });
     }
 
