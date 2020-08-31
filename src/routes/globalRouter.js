@@ -13,5 +13,6 @@ routes.post('/sign', SessionController.store);
 routes.put('/users', AuthMiddleware, UserController.update);
 routes.post('/register-therapist', AuthMiddleware, TherapistController.store);
 routes.post('/schedule-therapist', AuthMiddleware, ScheduleController.store);
+routes.get('/list-therapist', AuthMiddleware, TherapistController.index);
 
 export default routes;

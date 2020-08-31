@@ -2,6 +2,19 @@ import Therapist from '../models/Therapist';
 import User from '../models/User';
 
 class TherapistController {
+  async index(req, res) {
+    const therapistAll = await Therapist.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'name'],
+        },
+      ],
+      attributes: ['id', 'crp', 'bio', 'approach', 'cost', 'duration'],
+    });
+    return res.status(200).json(therapistAll);
+  }
+
   async store(req, res) {
     const checkTherapist = req.therapist;
 
