@@ -1,6 +1,7 @@
 import Therapist from '../models/Therapist';
 import User from '../models/User';
 import Schedule from '../models/Schedule';
+import Avatar from '../models/Avatar';
 
 class TherapistController {
   async index(req, res) {
@@ -15,7 +16,8 @@ class TherapistController {
         include: [
           {
             model: User,
-            attributes: ['id', 'name'],
+            attributes: ['id', 'name', 'avatar_id'],
+            include: [Avatar],
           },
           {
             model: Schedule,
@@ -32,7 +34,13 @@ class TherapistController {
       include: [
         {
           model: User,
-          attributes: ['id', 'name'],
+          attributes: ['id', 'name', 'avatar_id'],
+          include: [
+            {
+              model: Avatar,
+              attributes: ['url', 'originalname', 'filename'],
+            },
+          ],
         },
         {
           model: Schedule,
