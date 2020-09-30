@@ -7,10 +7,19 @@ class TherapistController {
   async index(req, res) {
     const filter = req.query;
 
+    if (
+      (filter.approach && !filter.cost) ||
+      (!filter.approach && filter.cost)
+    ) {
+      return res
+        .status(400)
+        .json({ error: 'Incomplete information: appoach and cost' });
+    }
+
     const cost = Number(filter.cost);
     const { approach } = filter;
 
-    if (filter.approach || filter.cost) {
+    if (filter.approach && filter.cost) {
       const therapistFilter = await Therapist.findAll({
         where: { cost, approach },
         include: [

@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import * as Yup from 'yup';
 import User from '../models/User';
 import auth from '../../config/auth';
+import Avatar from '../models/Avatar';
 
 class UserController {
   async store(req, res) {
@@ -41,7 +42,7 @@ class UserController {
 
     const schemaValidation = Yup.object().shape({
       name: Yup.string(),
-      email: Yup.string().email(),
+      email: Yup.string().email().required(),
       password: Yup.string().required(),
       newPassword: Yup.string().min(5),
     });
@@ -54,6 +55,7 @@ class UserController {
 
     const user = await User.findByPk(req.userId);
 
+    console.log(user);
     const checkPassword = await user.comparePassword(password);
 
     if (!checkPassword) {
@@ -74,10 +76,20 @@ class UserController {
 
     const { id, name } = await user.update(req.body);
 
+    const avatarUser = await User.findByPk(req.userId, {
+      attributes: ['avatar_id'],
+      include: [
+        {
+          model: Avatar,
+          attributes: ['url', 'originalname', 'filename'],
+        },
+      ],
+    });
     return res.json({
       id,
       email,
       name,
+      avatarUser,
     });
   }
 

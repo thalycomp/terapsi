@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
 import auth from '../../config/auth';
+import Avatar from '../models/Avatar';
 
 class SessionController {
   async store(req, res) {
@@ -18,6 +19,17 @@ class SessionController {
       return res.status(401).json({ error: 'Invalid password.' });
     }
 
+    const avatarUser = await User.findOne({
+      where: { email },
+      attributes: ['avatar_id'],
+      include: [
+        {
+          model: Avatar,
+          attributes: ['url', 'originalname', 'filename'],
+        },
+      ],
+    });
+
     const { id, name, therapist } = user;
 
     return res.json({
@@ -25,6 +37,7 @@ class SessionController {
         id,
         name,
         therapist,
+        avatarUser,
       },
       token: jwt.sign({ id, therapist }, auth.secret, {
         expiresIn: auth.expiresIn,
