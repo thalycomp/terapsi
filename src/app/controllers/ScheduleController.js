@@ -1,8 +1,27 @@
 import User from '../models/User';
+import Avatar from '../models/Avatar';
 import Schedule from '../models/Schedule';
 import Therapist from '../models/Therapist';
 
 class ScheduleController {
+
+  async index(req, res) {
+    const { id } = req.params;
+
+    const therapistSchedule = await Therapist.findAll({
+      where: { id: id },
+      include: [
+        {
+          model: Schedule,
+          attributes: ['from', 'to', 'week_day'],
+        },
+      ],
+      attributes: ['cost', 'duration'],
+    });
+
+    return res.json(therapistSchedule);
+  }
+
   async store(req, res) {
     const { therapist } = await User.findOne({
       where: { id: req.userId },

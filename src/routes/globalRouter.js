@@ -17,5 +17,6 @@ routes.post('/register-therapist', AuthMiddleware, TherapistController.store);
 routes.post('/schedule-therapist', AuthMiddleware, ScheduleController.store);
 routes.get('/list-therapist', AuthMiddleware, TherapistController.index);
 routes.post('/avatar', AuthMiddleware, AvatarController.store);
+routes.get('/schedule-therapist/:id', AuthMiddleware, ScheduleController.index);
 
 export default routes;
