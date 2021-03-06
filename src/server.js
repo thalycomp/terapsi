@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const port = 3333;
+const port = 3333 || process.env.PORT ;
 
 
 server.listen(port, function () {
