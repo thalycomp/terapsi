@@ -1,5 +1,11 @@
 import server from './app';
+import dotenv from 'dotenv';
 
-server.listen(3333, function () {
-  console.log('listening on 3333');
+dotenv.config();
+
+const port = 3333;
+
+
+server.listen(port, function () {
+  console.log(`listening on ${port}`);
 });
